@@ -1,0 +1,12 @@
+D:\projects\VSprojects\linq\linq\bin\Debug\linq.exe
+D:\projects\VSprojects\linq\linq\bin\Debug\linq.pdb
+D:\projects\VSprojects\linq\linq\obj\Debug\linq.csprojAssemblyReference.cache
+D:\projects\VSprojects\linq\linq\obj\Debug\linq.csproj.CoreCompileInputs.cache
+D:\projects\VSprojects\linq\linq\obj\Debug\linq.exe
+D:\projects\VSprojects\linq\linq\obj\Debug\linq.pdb
+D:\projects\VSprojects\linq\linq\bin\Debug\linq.exe.config
+D:\projects\VSprojects\linq\linq\bin\Debug\EntityFramework.dll
+D:\projects\VSprojects\linq\linq\bin\Debug\EntityFramework.SqlServer.dll
+D:\projects\VSprojects\linq\linq\bin\Debug\EntityFramework.xml
+D:\projects\VSprojects\linq\linq\bin\Debug\EntityFramework.SqlServer.xml
+D:\projects\VSprojects\linq\linq\obj\Debug\linq.csproj.CopyComplete

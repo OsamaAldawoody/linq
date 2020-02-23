@@ -1,0 +1,123 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Schema Namespace="ITIModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+  <EntityType Name="Course">
+    <Key>
+      <PropertyRef Name="Crs_Id" />
+    </Key>
+    <Property Name="Crs_Id" Type="Int32" Nullable="false" />
+    <Property Name="Crs_Name" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+    <Property Name="Crs_Duration" Type="Int32" />
+    <Property Name="Top_Id" Type="Int32" />
+  </EntityType>
+  <EntityType Name="Department">
+    <Key>
+      <PropertyRef Name="Dept_Id" />
+    </Key>
+    <Property Name="Dept_Id" Type="Int32" Nullable="false" />
+    <Property Name="Dept_Name" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+    <Property Name="Dept_Desc" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
+    <Property Name="Dept_Location" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+    <Property Name="Dept_Manager" Type="Int32" />
+    <Property Name="Manager_hiredate" Type="DateTime" Precision="0" />
+    <NavigationProperty Name="Instructor" Relationship="Self.FK_Department_Instructor" FromRole="Department" ToRole="Instructor" />
+    <NavigationProperty Name="Instructors" Relationship="Self.FK_Instructor_Department" FromRole="Department" ToRole="Instructor" />
+    <NavigationProperty Name="Students" Relationship="Self.FK_Student_Department" FromRole="Department" ToRole="Student" />
+  </EntityType>
+  <EntityType Name="Instructor">
+    <Key>
+      <PropertyRef Name="Ins_Id" />
+    </Key>
+    <Property Name="Ins_Id" Type="Int32" Nullable="false" />
+    <Property Name="Ins_Name" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+    <Property Name="Ins_Degree" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+    <Property Name="Salary" Type="Decimal" Precision="19" Scale="4" />
+    <Property Name="Dept_Id" Type="Int32" />
+    <NavigationProperty Name="Departments" Relationship="Self.FK_Department_Instructor" FromRole="Instructor" ToRole="Department" />
+    <NavigationProperty Name="Department" Relationship="Self.FK_Instructor_Department" FromRole="Instructor" ToRole="Department" />
+  </EntityType>
+  <EntityType Name="Student">
+    <Key>
+      <PropertyRef Name="St_Id" />
+    </Key>
+    <Property Name="St_Id" Type="Int32" Nullable="false" />
+    <Property Name="St_Fname" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+    <Property Name="St_Lname" Type="String" MaxLength="10" FixedLength="true" Unicode="true" />
+    <Property Name="St_Address" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
+    <Property Name="St_Age" Type="Int32" />
+    <Property Name="Dept_Id" Type="Int32" />
+    <Property Name="St_super" Type="Int32" />
+    <NavigationProperty Name="Department" Relationship="Self.FK_Student_Department" FromRole="Student" ToRole="Department" />
+    <NavigationProperty Name="Student1" Relationship="Self.FK_Student_Student" FromRole="Student" ToRole="Student1" />
+    <NavigationProperty Name="Student2" Relationship="Self.FK_Student_Student" FromRole="Student1" ToRole="Student" />
+  </EntityType>
+  <Association Name="FK_Department_Instructor">
+    <End Role="Instructor" Type="Self.Instructor" Multiplicity="0..1" />
+    <End Role="Department" Type="Self.Department" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Instructor">
+        <PropertyRef Name="Ins_Id" />
+      </Principal>
+      <Dependent Role="Department">
+        <PropertyRef Name="Dept_Manager" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_Instructor_Department">
+    <End Role="Department" Type="Self.Department" Multiplicity="0..1" />
+    <End Role="Instructor" Type="Self.Instructor" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Department">
+        <PropertyRef Name="Dept_Id" />
+      </Principal>
+      <Dependent Role="Instructor">
+        <PropertyRef Name="Dept_Id" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_Student_Department">
+    <End Role="Department" Type="Self.Department" Multiplicity="0..1" />
+    <End Role="Student" Type="Self.Student" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Department">
+        <PropertyRef Name="Dept_Id" />
+      </Principal>
+      <Dependent Role="Student">
+        <PropertyRef Name="Dept_Id" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_Student_Student">
+    <End Role="Student" Type="Self.Student" Multiplicity="0..1" />
+    <End Role="Student1" Type="Self.Student" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Student">
+        <PropertyRef Name="St_Id" />
+      </Principal>
+      <Dependent Role="Student1">
+        <PropertyRef Name="St_super" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <EntityContainer Name="ITIEntities" annotation:LazyLoadingEnabled="true">
+    <EntitySet Name="Courses" EntityType="Self.Course" />
+    <EntitySet Name="Departments" EntityType="Self.Department" />
+    <EntitySet Name="Instructors" EntityType="Self.Instructor" />
+    <EntitySet Name="Students" EntityType="Self.Student" />
+    <AssociationSet Name="FK_Department_Instructor" Association="Self.FK_Department_Instructor">
+      <End Role="Instructor" EntitySet="Instructors" />
+      <End Role="Department" EntitySet="Departments" />
+    </AssociationSet>
+    <AssociationSet Name="FK_Instructor_Department" Association="Self.FK_Instructor_Department">
+      <End Role="Department" EntitySet="Departments" />
+      <End Role="Instructor" EntitySet="Instructors" />
+    </AssociationSet>
+    <AssociationSet Name="FK_Student_Department" Association="Self.FK_Student_Department">
+      <End Role="Department" EntitySet="Departments" />
+      <End Role="Student" EntitySet="Students" />
+    </AssociationSet>
+    <AssociationSet Name="FK_Student_Student" Association="Self.FK_Student_Student">
+      <End Role="Student" EntitySet="Students" />
+      <End Role="Student1" EntitySet="Students" />
+    </AssociationSet>
+  </EntityContainer>
+</Schema>
